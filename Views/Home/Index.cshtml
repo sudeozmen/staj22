@@ -1,0 +1,123 @@
+﻿@model List<Books>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Index</title>
+    <style>
+         
+        .button {
+            background-color: #ffffff;
+            text-align: center;
+            border-radius: 12px;
+        }
+
+        input[type=text] {
+            width: 100%;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: white;
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            padding: 12px 20px 12px 40px;
+        }
+
+        input[type=submit] {
+            width: 50%;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            display: block;
+            margin: auto;
+        }
+
+        td{
+            text-transform:capitalize;
+            text-align:center;
+        }
+
+        th {
+            text-align: center;
+        }
+        h5 {
+            text-align: center
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        <section>
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+            {
+                <input type="text" name="input" required  />
+                <input type="submit" class="btn btn-outline-dark" value="SEARCH" />
+            }<br />
+            <div style="height: 650px; overflow-x:scroll; overflow-y: scroll;">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>BARCODE</th>
+                            <th>NAME</th>
+                            <th>AUTHOR</th>
+                            <th>PAGE</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model == null)
+                        {
+                            <tr>
+                                <td colspan="5" style="color:red">
+                                    <h5>@ViewBag.sonuc</h5>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var a in Model)
+                            {
+                                <tr>
+                                    <td>@a.BARCODE</td>
+                                    <td>@a.NAME</td>
+                                    <td>@a.AUTHOR</td>
+                                    <td>@a.PAGE</td>
+                                    <td>
+                                        @using (Html.BeginForm("Registry", "Home", FormMethod.Get))
+                                        {
+                                            <input type="hidden" name="BBARCODE" value="@a.BARCODE" />
+                                            <input type="submit" class="btn btn-outline-success" value="REGISTRY" style="width:60%;"/>
+                                        }
+                                    </td>
+                                </tr>
+
+                            }
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+            <div> 
+                <br />
+                @using (Html.BeginForm("Insert", "Home", FormMethod.Get))
+                {
+                        <input type="submit" class="btn btn-outline-dark" value="ADD NEW BOOK" />
+
+                }
+                <br />
+                @using (Html.BeginForm("Records", "Home", FormMethod.Get))
+                {
+                        <input type="submit" class="btn btn-outline-dark" value="RECORDS"/>
+                }
+            </div>
+        </section>
+    </div>
+</body>
+</html>

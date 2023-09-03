@@ -1,0 +1,127 @@
+﻿@model List<BorrowedBooks>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Index</title>
+    <style>
+
+        .button {
+            background-color: #ffffff;
+            text-align: center;
+            border-radius: 12px;
+        }
+
+        input[type=text] {
+            width: 100%;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: white;
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            padding: 12px 20px 12px 40px;
+        }
+
+        td {
+            text-transform: capitalize;
+            text-align:center;
+        }
+
+        th{
+            text-align:center;
+        }
+
+        h5 {
+            text-align: center
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <section>
+            @using (Html.BeginForm("Records", "Home", FormMethod.Post))
+            {
+                <input type="text" name="input" required />
+                <input type="submit" class="btn btn-outline-dark" value="SEARCH" style="
+            width:50%;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            display: block;
+            margin:auto;" />
+            }<br />
+            <div style="height: 650px; overflow-x: scroll; overflow-y: scroll;">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID NUMBER</th>
+                            <th>NAME-SURNAME</th>
+                            <th>PHONE NUMBER</th>
+                            <th>ISSUED DATE</th>
+                            <th>RECEPTION DATE</th>
+                            <th>BARCODE</th>
+                            <th>BOOOK NAME</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model == null)
+                        {
+                            <tr>
+                                <td colspan="8" style="color:red">
+                                    <h5>@ViewBag.sonuc</h5>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var a in Model)
+                            {
+                                <tr>
+                                    <td>@a.ID_NUMBER</td>
+                                    <td>@a.FULL_NAME</td>
+                                    <td>@a.PHONE_NUMBER</td>
+                                    <td>@a.FDATE.Substring(0, @a.FDATE.Length - 8)</td>
+                                    <td>@a.LDATE.Substring(0, @a.LDATE.Length - 8)</td>
+                                    <td>@a.BBARCODE</td>
+                                    <td>@a.BOOK_NAME</td>
+                                    <td>
+                                        @using (Html.BeginForm("Delete", "Home", FormMethod.Get))
+                                        {
+                                            <input type="hidden" name="ID_NUMBER" value="@a.ID_NUMBER" />
+                                            <input type="hidden" name="FULL_NAME" value="@a.FULL_NAME" />
+                                            <input type="hidden" name="BOOK_NAME" value="@a.BOOK_NAME" />
+                                            <input type="submit" class="btn btn-outline-danger" value="DELETE" style="width:100%;"/>
+                                        }
+                                        @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+                                        {
+                                            <input type="hidden" name="BBARCODE" value="@a.BBARCODE" />
+                                        }
+                                    </td>
+                                </tr>
+
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <br />
+            <div>
+            <form method="get" asp-controller="Home" asp-action="Index">   <input type="submit" class="btn btn-outline-warning" value="CANCEL" style="
+            width:50%;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            display: block;
+            margin:auto;" /></form>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
+

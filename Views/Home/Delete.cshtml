@@ -1,0 +1,62 @@
+﻿@model BorrowedBooks
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        h2{
+            text-align:center;
+            color: #212b59;
+            text-shadow: none;
+        }
+        h4{
+            text-align:center;
+            color:red;
+        }
+        td{
+            text-transform:capitalize;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+        }
+        .btn {
+            padding: 10px 50px; 
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <section>
+            <h2>Confirm Delete</h2>
+            <h4>Are You Sure You Want To Delete This Record?</h4>
+<table class="table table-striped">
+                <th>ID NUMBER:</th>
+                <tr><td>@ViewBag.idnumber</td></tr>
+                <br />
+                <th>NAME:</th> 
+                <tr><td>@ViewBag.fullname</td></tr>
+                <br />
+                <th>BOOK:</th>
+                <tr><td>@ViewBag.bookname</td></tr>
+            </table>
+<br />
+            <div class="button-container">
+            <form method="get" asp-controller="Home" asp-action="Records"><input type="submit" class="btn btn-outline-warning" value="CANCEL" /></form>
+            @using (Html.BeginForm("Delete", "Home", FormMethod.Post))
+            {
+                <input type="hidden" name="ID_NUMBER" value="@ViewBag.idnumber" />
+                <input type="submit" class="btn btn-outline-danger" value="DELETE" />
+            }
+            </div>
+        </section>
+    </div>
+</body>
+</html>

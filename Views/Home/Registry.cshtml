@@ -1,0 +1,117 @@
+﻿@model BorrowedBooks 
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .button {
+            background-color: #ffffff;
+            text-align: center;
+            border-radius: 12px;
+            width:100%;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            font-size: 16px;
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            padding: 12px 20px 12px 40px;
+        }
+
+        input[type=text] {
+            width: 100%;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: white;
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            padding: 12px 20px 12px 40px;
+            text-transform:capitalize;
+            
+        }
+
+        input[type=date]{
+            width: 100%;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: white;
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            padding: 12px 20px 12px 40px;
+        }
+
+        input[type=tel]{
+            width: 100%;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: white;
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            padding: 12px 20px 12px 40px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .btn {
+            padding: 10px 100px;
+            font-size: 16px;  
+            
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <section>
+            <form method="post" asp-controller="Home" asp-action="Registry">
+                <div>
+                    <table class="table table-striped">
+                        <thead>
+                            <input type="hidden" name="BBARCODE" value="@ViewBag.barcode" />
+                            <input type="hidden" name="BOOK_NAME" value="@ViewBag.bookName" />
+                        <tr><th>ID NUMBER</th></tr>
+                        <td><input type="text" name="ID_NUMBER" onkeypress="return /[0-9]/i.test(event.key)" maxlength="11" required></td>
+                        <tr><th>FULL NAME</th></tr>
+                        <td><input type="text" name="FULL_NAME" required></td>
+                        <tr><th>PHONE NUMBER</th></tr>
+                        <td><input type="tel" name="PHONE_NUMBER" onkeypress="return /[0-9]/i.test(event.key)" maxlength="12" required></td>
+                        <tr><th>DATE OF ISSUE</th></tr>
+                        <td> <input type="date" name="FDATE" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")" min="@DateTime.Now.ToString("yyyy-MM-dd")" required></td>
+                        <tr><th>RECEPTION DATE</th></tr>
+                        <td><input type="date" name="LDATE" min="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.AddDays(30).ToString("yyyy-MM-dd")" required></td>
+                        </thead>
+                    </table>
+                </div>
+                <div class="button-container">
+                <div>
+                    <input type="submit" class="btn btn-outline-dark" value="REGISTER" />
+                </div>
+            </form>
+            <div>
+                <form method="get" asp-controller="Home" asp-action="Index">
+                    <input type="submit" class="btn btn-outline-warning" value="CANCEL" />
+                </form>
+            </div>
+    </div>
+    <br />
+            @if (ViewBag.res != null)
+            {
+                <p>@ViewBag.res</p>
+            }
+        </section>
+    </div>
+</body>
+</html>
+
